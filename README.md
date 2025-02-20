@@ -9,10 +9,14 @@ Book-Recommendation-System
 ## Project Overview 🌟
 
 ### Latar Belakang
-Membuat sistem rekomendasi buku untuk membantu pengguna menemukan buku yang sesuai dengan preferensi mereka.
+Sistem rekomendasi buku menjadi semakin penting di era digital, di mana jumlah buku yang tersedia sangat besar dan pengguna sering kali kesulitan menemukan buku yang sesuai dengan preferensi mereka. Sistem ini bertujuan untuk membantu pengguna menemukan buku yang relevan berdasarkan riwayat interaksi mereka, seperti rating atau pembelian
 
 ### Pentingnya Proyek
-Buku adalah sumber pengetahuan yang sangat penting, tetapi jumlahnya yang besar sering kali membuat pengguna kesulitan memilih buku yang tepat.
+
+Proyek ini penting karena:
+
+1. Membantu pengguna menghemat waktu dalam mencari buku yang sesuai dengan minat mereka.
+2. Meningkatkan pengalaman pengguna dalam menjelajahi konten baru.
 
 ### Riset/Referensi
 - [Amazon](https://www.amazon.com/)
@@ -24,20 +28,15 @@ Buku adalah sumber pengetahuan yang sangat penting, tetapi jumlahnya yang besar 
 ## Business Understanding 💼
 
 ### Problem Statements
-1. Bagaimana membantu pengguna menemukan buku yang sesuai dengan preferensi mereka di antara ribuan pilihan yang tersedia?
-2. Bagaimana memberikan rekomendasi yang relevan berdasarkan riwayat dan preferensi pengguna?
+*  Bagaimana memberikan rekomendasi yang relevan berdasarkan riwayat interaksi pengguna (seperti rating atau pembelian)?
 
 ### Goals 🎯
-1. Memberikan rekomendasi buku yang relevan dan sesuai dengan minat pengguna.
-2. Meningkatkan pengalaman pengguna dalam mencari dan memilih buku.
+*  Mengembangkan sistem rekomendasi yang dapat memberikan rekomendasi buku yang akurat untuk meningkatkan kepuasan pengguna.
 
 ### Solution Approach 🛠️
-Untuk mencapai tujuan di atas, digunakan dua pendekatan sistem rekomendasi:
-1. **Content-Based Filtering**: Merekomendasikan buku berdasarkan kesamaan konten, seperti deskripsi dan kategori buku.
-2. **Collaborative Filtering**: Merekomendasikan buku berdasarkan interaksi pengguna, seperti rating yang diberikan pengguna terhadap buku.
+*  Menggunakan Collaborative Filtering dengan merekomendasikan buku berdasarkan interaksi pengguna, seperti rating yang diberikan terhadap buku. Metode yang digunakan adalah Singular Value Decomposition (SVD) dari pustaka Surprise untuk memberikan rekomendasi berdasarkan pola interaksi pengguna lain yang memiliki preferensi serupa.
 
 ---
-
 
 ## Data Understanding 📊
 ### Informasi Dataset
@@ -52,7 +51,7 @@ Untuk mencapai tujuan di atas, digunakan dua pendekatan sistem rekomendasi:
 3. **Sumber Data**: Dataset ini diambil dari Kaggle: [Books Dataset](https://www.kaggle.com/datasets/abdallahwagih/books-dataset)
 
    
-5. **Uraian Fitur:**
+5. **Uraian Fitur Dataset :**
 
    
 | **Fitur**         | **Deskripsi**                                             |
@@ -77,39 +76,63 @@ Untuk mencapai tujuan di atas, digunakan dua pendekatan sistem rekomendasi:
 ## Data Preparation
 
 **Tahapan Data Preparation:**
-1. **Handling Missing Values:**
-   Menghapus baris yang memiliki nilai null pada kolom yang akan digunakan untuk rekomendasi, seperti title, description, dan categories, untuk memastikan data yang bersih dan akurat.
-2. **Text Preprocessing:**
-  Mengubah teks dalam `description` menjadi huruf kecil dengan fungsi `preprocess_text()` untuk menghindari perbedaan akibat kapitalisasi huruf.
+1. **Menambahkan user_id Berdasarkan indeks:** Memberikan identifier unik untuk setiap user menggunakan indeks dataframe.
+2. **Menangani missing values:** Menghapus missing values pada kolom average_rating dan ratings_count agar tidak memengaruhi perhitungan dalam sistem rekomendas
+3. **Konversi Tipe Data**: Mengonversi tipe data isbn13 dan user_id menjadi string untuk memastikan konsistensi
 
+* **Collaborative Filltering Preparation**
+  1. **Persiapan Data untuk Surprise Library:** Menyiapkan data dengan kolom user_id, isbn13, dan average_rating untuk digunakan pada Surprise Library
+  2. **Split Data:** Data dibagi menjadi dua bagian, train Set dan Test Set dengan proporsi 80%  dan 20% ini untuk mengevaluasi performa model rekomendasi secara efektif.
+  
 ---
 
 ## Modeling and Result 💻
 
-1. **Content-Based Filtering**:  Pendekatan ini memberikan rekomendasi berdasarkan kesamaan konten dari buku yang sudah ada, seperti deskripsi buku, kategori, atau penulis.
-    -  **Cara Kerja**: Merekomendasikan buku berdasarkan kemiripan konten seperti deskripsi, kategori, dan penulis.  
-    -  **Metode**: Menggunakan TF-IDF Vectorizer untuk mengubah teks menjadi representasi numerik, kemudian menghitung Cosine Similarity untuk mengukur kemiripan antar buku. Implementasi:
-          - **TF-IDF Vectorizer** untuk mengubah teks deskripsi menjadi representasi numerik.
-          - **Cosine Similarity** untuk mengukur kemiripan antar buku.
+Pendekatan yang digunakan dalam proyek ini adalah Collaborative Filtering untuk menyelesaikan permasalahan rekomendasi buku dengan lebih efektif. 
 
-2.  **Collaborative Filtering**:  Pendekatan ini merekomendasikan buku berdasarkan pola interaksi pengguna lain yang serupa (misalnya, rating atau pembelian).
-    - **Cara Kerja**: Merekomendasikan buku berdasarkan pola interaksi pengguna lain yang serupa (misalnya, rating).
-    - **Metode:** Singular Value Decomposition (SVD) dari pustaka Surprise.
+### Collaborative Filtering:  
+
+Pendekatan ini merekomendasikan buku berdasarkan pola interaksi pengguna lain yang serupa (misalnya, rating atau pembelian).
+
+-  **Cara Kerja**:
+   1. Collaborative Filtering bekerja dengan menganalisis kesamaan preferensi antar pengguna atau kesamaan karakteristik antar item.
+   2. Dalam proyek ini, pendekatan ini merekomendasikan buku berdasarkan pola interaksi pengguna lain yang serupa, misalnya melalui rating yang diberikan pengguna terhadap buku-buku tertentu.
+-  **Metode yang digunakan:**
+     - Menggunakan Singular Value Decomposition (SVD) dari pustaka Surprise untuk mendekomposisi matriks interaksi pengguna-buku menjadi bentuk yang lebih sederhana.
+     - Dengan SVD, pola kesamaan pengguna atau item dapat ditemukan lebih mudah, sehingga rekomendasi yang dihasilkan lebih akurat dan relevan.
+       
+### **Top-N Recommendation**
+- Digunakan untuk menampilkan N buku teratas dengan prediksi rating tertinggi bagi pengguna tertentu.
+
+Hasil rekomendasi ditampilkan dalam bentuk tabel peringkat yang memuat informasi berikut: 
+
+- Rank: Urutan rekomendasi berdasarkan prediksi rating tertinggi.
+- Judul Buku: Judul buku yang direkomendasikan.
+- Prediksi Rating: Nilai prediksi rating dari model SVD.
+  
+Berikut adalah contoh **Top-5 rekomendasi buku** menggunakan **Collaborative Filtering** dengan metode **SVD** untuk User 3:  
+
+| **Rank** | **Judul Buku**                  | **Prediksi Rating** |
+|----------|---------------------------------|---------------------|
+| 1        | Justine                         | 4.28                |
+| 2        | Babar the King                  | 4.28                |
+| 3        | Children of the Mind            | 4.27                |
+| 4        | Night of the Long Shadows       | 4.27                |
+| 5        | The Kate DiCamillo Collection   | 4.27                |  
+
+Berikut Hasil Visualisasi **Top-5 rekomendasi buku** menggunakan **Collaborative Filtering** dengan metode **SVD** untuk User 3:
+
+ ![Top-5 rekomendasi buku user 3](https://github.com/user-attachments/assets/7add86fc-1ab5-4e68-aeda-a43a86d327c0)
+
 
 ---
 
 ## Evaluation 📈
 
-1. Content-Based Filtering 📝
-Evaluasi untuk **Content-Based Filtering** dilakukan dengan menghitung **Cosine Similarity** antar buku untuk memberikan rekomendasi yang lebih akurat. Karena sistem ini berbasis pada konten buku itu sendiri, evaluasi Sistem ini menampilkan top-N rekomendasi.
-
-Contoh penggunaan:
-
-```python
-content_based_recommendations("The Great Gatsby")
-```
-
-2. **Evaluasi Collaborative Filtering**: metrik yang digunakan adalah **RMSE (Root Mean Squared Error)**. Berikut adalah rumus untuk menghitung RMSE:
+### **Metrik evaluasi yang digunakan**:  
+1. RMSE (Root Mean Squared Error):
+   
+   Mengukur rata-rata kesalahan kuadrat antara nilai prediksi dan nilai aktual. Semakin kecil nilai RMSE, semakin akurat model dalam memprediksi rating. Berikut adalah rumus untuk menghitung RMSE:
 
 $$
 RMSE = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (r_{ui} - \hat{r}_{ui})^2}
@@ -119,34 +142,57 @@ Di mana:
 - \( r_{ui} \) adalah rating asli yang diberikan oleh pengguna \( u \) untuk item \( i \),
 - \( \hat{r}_{ui} \) adalah rating yang diprediksi oleh sistem,
 - \( N \) adalah jumlah prediksi yang dihitung.
+   
+2. MAE (Mean Absolute Error):
+  
+   Mengukur rata-rata kesalahan absolut antara nilai prediksi dan nilai aktual. MAE lebih fokus pada besar kecilnya kesalahan secara absolut tanpa mempertimbangkan arah kesalahan. Berikut adalah rumus untuk menghitung MAE:
 
-#### **Hasil Evaluasi**
-- **RMSE (Root Mean Squared Error):**  
-  - `0.3440`  
-  - `0.34399586335267107`  
-  Hasil ini menunjukkan akurasi model dalam memprediksi nilai dengan semakin kecilnya nilai RMSE, semakin baik performa model.
+$$
+MAE = \frac{1}{N} \sum_{i=1}^{N} \left| r_{ui} - \hat{r}_{ui} \right|
+$$  
+
+Di mana:  
+- \( r_{ui} \) adalah rating asli yang diberikan oleh pengguna \( u \) untuk item \( i \),  
+- \( \hat{r}_{ui} \) adalah rating yang diprediksi oleh sistem,  
+- \( N \) adalah jumlah prediksi yang dihitung.
+
+
+#### **Hasil Evaluasi Model menggunakan Test Set**
+
+| Metrik   | Nilai  |
+|----------|--------|
+| **RMSE** | 0.2473 |
+| **MAE**  | 0.1736 |
+
+
+#### **Hasil Evaluasi Model menggunakan Test Set**
+
+| Metrik   | Fold 1 | Fold 2 | Fold 3 | Fold 4 | Fold 5 | Mean   | Std    |
+|----------|--------|--------|--------|--------|--------|--------|--------|
+| **RMSE** | 0.3168 | 0.3391 | 0.3756 | 0.3195 | 0.3009 | 0.3304 | 0.0257 |
+| **MAE**  | 0.2175 | 0.2365 | 0.2368 | 0.2333 | 0.2318 | 0.2312 | 0.0071 |  
+
 
 ---
 
+
 ## Conclusion
-
-* Content-Based Filtering berhasil memberikan rekomendasi buku yang relevan berdasarkan kemiripan deskripsi dan kategori buku, dengan menggunakan teknik TF-IDF dan Cosine Similarity.
-
-* Collaborative Filtering efektif dalam memberikan rekomendasi berdasarkan pola interaksi pengguna lain, menggunakan pendekatan Singular Value Decomposition (SVD).
-
-* Kedua metode menunjukkan bahwa sistem rekomendasi yang dibangun dapat memberikan hasil yang memadai untuk membantu pengguna memilih buku yang sesuai dengan preferensi mereka.
+- Sistem rekomendasi buku berhasil dibangun menggunakan Collaborative Filtering dengan metode SVD.
+- Model memberikan rekomendasi yang relevan berdasarkan pola interaksi pengguna lain yang memiliki preferensi serupa.
+- Hasil evaluasi menunjukkan RMSE sebesar 0.2473 dan MAE sebesar 0.1736, menandakan prediksi yang akurat.
+- Top-5 rekomendasi buku berhasil ditampilkan dengan prediksi rating tertinggi bagi pengguna.
+- Sistem ini membantu pengguna menemukan buku yang sesuai dengan preferensi mereka, meningkatkan pengalaman membaca.
 
 ---
 
 
 ## 📌 Referensi
--  [Kaggle -Books Dataset](https://www.kaggle.com/datasets/abdallahwagih/books-dataset)
--  [Amazon](https://www.amazon.com/)
+- [Kaggle -Books Dataset](https://www.kaggle.com/datasets/abdallahwagih/books-dataset)
+- [Amazon](https://www.amazon.com/)
 - [Google Books](https://books.google.com/)
 - [Goodreads Recommendation System](https://www.goodreads.com/)
 
 ---
-
 
 **Elisa Ramadanti**  
 LinkedIn: [linkedin.com/in/elisa-ramadanti](https://www.linkedin.com/in/elisa-ramadanti)
