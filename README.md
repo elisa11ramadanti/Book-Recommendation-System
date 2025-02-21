@@ -60,12 +60,13 @@ Proyek ini penting karena:
 | **title, subtitle**| Informasi tentang judul buku dan subjudul (jika ada).    |
 | **authors**        | Nama-nama penulis buku.                                  |
 | **categories**     | Kategori atau genre buku.                                |
+| **thumbnail**      | URL gambar sampul buku.                                  |
 | **description**    | Deskripsi atau ringkasan isi buku.                       |
 | **published_year** | Tahun publikasi buku.                                    |
 | **average_rating** | Rating rata-rata buku berdasarkan ulasan pengguna.       |
 | **num_pages**      | Jumlah halaman dalam buku.                               |
-| **ratings_count**  | Jumlah total rating yang diterima oleh buku.             | 
-|**ratings_count**   |Jumlah rating yang diterima                               |
+| **ratings_count**  | Jumlah rating yang diterima oleh buku.                   | 
+
 
 6. **Tipe Data:**
     - Numerik: 4 kolom (published_year, average_rating, num_pages, ratings_count).
