@@ -166,7 +166,7 @@ Di mana:
 | **MAE**  | 0.1736 |
 
 
-#### **Hasil Evaluasi Model menggunakan Test Set**
+#### **Hasil Evaluasi Model menggunakan Cross Validation**
 
 | Metrik   | Fold 1 | Fold 2 | Fold 3 | Fold 4 | Fold 5 | Mean   | Std    |
 |----------|--------|--------|--------|--------|--------|--------|--------|
